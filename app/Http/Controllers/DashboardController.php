@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
 use PHPUnit\Framework\Exception;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return "Estamos na index(dashboard)";
+        return view('user.dashboard');
     }
 
     public function auth(Request $request)
@@ -34,7 +35,7 @@ class DashboardController extends Controller
         {
             if(env('PASSWORD_HASH'))
             {
-                \Auth::attempt($data, false);
+                Auth::attempt($data, false);
             }
             else
             {
@@ -43,8 +44,10 @@ class DashboardController extends Controller
                 if (!$user)
                     throw new Exception("O e-mail informado é inválido");
 
-                if($user->password == $request->get('username'));
+                if($user->password != $request->get('password'))
+                    throw new \Exception("O senha informada é invalido");
 
+                Auth::login($user);
                             
             }
 

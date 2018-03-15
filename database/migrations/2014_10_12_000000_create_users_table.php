@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('status')->default('active');
             $table->string('permision')->default('app.user');
 
-
+            //restant
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

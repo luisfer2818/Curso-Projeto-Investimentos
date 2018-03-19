@@ -11,6 +11,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
+use App\Services\UserService;
 
 /**
  * Class UsersController.
@@ -19,26 +20,14 @@ use App\Validators\UserValidator;
  */
 class UsersController extends Controller
 {
-    /**
-     * @var UserRepository
-     */
+
+    protected $service;
     protected $repository;
-
-    /**
-     * @var UserValidator
-     */
-    protected $validator;
-
-    /**
-     * UsersController constructor.
-     *
-     * @param UserRepository $repository
-     * @param UserValidator $validator
-     */
-    public function __construct(UserRepository $repository, UserValidator $validator)
+     
+    public function __construct(UserRepository $repository, UserService $service)
     {
-        $this->repository = $repository;
-        $this->validator  = $validator;
+        $this->repository  = $repository;
+        $this->service     = $service;
     }
 
     /**
@@ -48,19 +37,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $users = $this->repository->all();
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $users,
-            ]);
-        }
-
-        return view('users.index', compact('users'));
+        return view('user.index');
     }
-
+     
     /**
      * Store a newly created resource in storage.
      *
@@ -72,34 +51,18 @@ class UsersController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        try {
+        $request = $this->service->store($request->all());
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+        if($request['success'])
+            $usuario = $request['data'];
+        else
+            $usuario = null;
 
-            $user = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'User created.',
-                'data'    => $user->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return view('user.index', [
+            'usuario' => $usuario,
+        ]);
     }
+
 
     /**
      * Display the specified resource.

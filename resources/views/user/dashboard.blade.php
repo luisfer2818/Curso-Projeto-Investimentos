@@ -7,6 +7,5 @@
 @endsection
 
 @section('conteudo-view')
-<br>
-    <h2>Dashboard Ola!</h2>
+
 @endsection

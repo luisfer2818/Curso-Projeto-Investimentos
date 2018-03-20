@@ -52,11 +52,12 @@ class UsersController extends Controller
     public function store(UserCreateRequest $request)
     {
         $request = $this->service->store($request->all());
+        $usuario = $request['success'] ? $request['data'] : null;
 
-        if($request['success'])
-            $usuario = $request['data'];
-        else
-            $usuario = null;
+        session()->flush('success', [
+            'success'  => $request['success'],
+            'messages' => $request['messages'], 
+        ]);
 
         return view('user.index', [
             'usuario' => $usuario,

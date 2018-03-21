@@ -12,11 +12,7 @@ use \Prettus\Validator\LaravelValidator;
  */
 class UserValidator extends LaravelValidator
 {
-    /**
-     * Validation Rules
-     *
-     * @var array
-     */
+
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
             'cpf'   => 'required',

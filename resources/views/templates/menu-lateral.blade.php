@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+        <a href="{{ route('instituitions.index') }}">
                 <i class="fa fa-building"></i>
                 <h3>Instituições</h3>
             </a>
@@ -30,12 +30,19 @@
                 <h3>Contato</h3>
             </a>
         </li>
-         <li>
+         {{--  <li>  
             <a href="">
                 <i class="fa fa-cogs"></i>
                 <h3>Configurações</h3>
             </a>
+        </li>  --}}
+         <li> 
+            <a href="">
+                <i class="fa fa-sign-in"></i>
+                <h3>Sair</h3>
+            </a>
         </li>
+  
         
     </ul>
 </nav>

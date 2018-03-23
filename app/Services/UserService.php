@@ -27,23 +27,20 @@ class UserService
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE); 
             $usuario = $this->repository->create($data); 
 
-            dd($usuario);
-
             return [
                 'success'  => true,
                 'messages' => "Usuário Cadastrado",
                 'data'     => $usuario,
-            ];   
-        }
-        catch(Exception $e)
+            ];
+        } 
+    catch (Exception $e) 
         {
-         
-            switch (get_class($e)) 
-            {
-                case QueryException::class     : return ['success' => false, 'messages' => $e->getMessage()];
-                case ValidatorException::class : return ['success' => false, 'messages' => $e->getMessageBag()];
-                case Exception::class          : return ['success' => false, 'messages' => $e->getMessage()];  
-                default                        : return ['success' => false, 'messages' => get_class($e)];
+            dd($e);
+            switch (get_class($e)) {
+                case QueryException::class:     return ['success' => false, 'messages' => $e->getMessage()];
+                case ValidatorException::class: return ['success' => false, 'messages' => $e->getMessageBag()];
+                case Exception::class:          return ['success' => false, 'messages' => $e->getMessage()];
+                default:                        return ['success' => false, 'messages' => get_class($e)];
             }
         }
     }
@@ -67,16 +64,16 @@ class UserService
         } catch (Exception $e) {
 
             switch (get_class($e)) {
-                case QueryException::class:
-                    return ['success' => false, 'messages' => $e->getMessage()];
-                case ValidatorException::class:
-                    return ['success' => false, 'messages' => $e->getMessageBag()];
-                case Exception::class:
-                    return ['success' => false, 'messages' => $e->getMessage()];
-                default:
-                    return ['success' => false, 'messages' => get_class($e)];
+                case QueryException::class:      return ['success' => false, 'messages' => $e->getMessage()];
+                case ValidatorException::class:  return ['success' => false, 'messages' => $e->getMessageBag()];
+                case Exception::class:           return ['success' => false, 'messages' => $e->getMessage()];
+                default:                         return ['success' => false, 'messages' => get_class($e)];
             }
         }
     }
-    
+
+    public function authorize()
+    {
+        return true;
+    }
 }

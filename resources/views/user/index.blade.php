@@ -51,7 +51,8 @@
             <td>{{ $user->permision }}</td>
             <td class="button-delete">
                 {!! Form::open(['route' => ['user.destroy', $user->id], 'method' => 'DELETE']) !!}
-                {!! Form::submit('Remover') !!}
+                <i class="fa fa-trash"></i>
+                {!! Form::submit('Remover') !!}               
                 {!! Form::close() !!}
             </td>
         </tr>

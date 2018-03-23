@@ -22,3 +22,4 @@ Route::post('/login', ['as' => 'user.login', 'uses' => 'DashboardController@auth
 Route::get('/dashboard', ['as' => 'user.dashboard', 'uses' => 'DashboardController@index']);
 
 Route::resource('user', 'UsersController');
+Route::resource('instituitions', 'InstituitionsController');

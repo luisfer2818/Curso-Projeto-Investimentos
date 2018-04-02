@@ -17,25 +17,25 @@ use App\Validators\InstituitonValidator;
  *
  * @package namespace App\Http\Controllers;
  */
-class InstituitionsController extends Controller
+class InstitutonsController extends Controller
 {
     /**
-     * @var InstituitonRepository
+     * @var InstitutonRepository
      */
     protected $repository;
 
     /**
-     * @var InstituitonValidator
+     * @var InstitutonValidator
      */
     protected $validator;
 
     /**
      * InstituitonsController constructor.
      *
-     * @param InstituitonRepository $repository
-     * @param InstituitonValidator $validator
+     * @param InstitutonRepository $repository
+     * @param InstitutonValidator $validator
      */
-    public function __construct(InstituitonRepository $repository, InstituitonValidator $validator)
+    public function __construct(InstitutonRepository $repository, InstitutonValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
@@ -49,16 +49,16 @@ class InstituitionsController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $instituitions = $this->repository->all();
+        $institutons = $this->repository->all();
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $instituitions,
+                'data' => $institutons,
             ]);
         }
 
-        return view('instituitions.index', compact('instituitions'));
+        return view('instituitons.index', compact('instituitions'));
     }
 
     /**
@@ -70,7 +70,7 @@ class InstituitionsController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(InstituitonCreateRequest $request)
+    public function store(InstituitionCreateRequest $request)
     {
         try {
 
@@ -80,7 +80,7 @@ class InstituitionsController extends Controller
 
             $response = [
                 'message' => 'Instituiton created.',
-                'data'    => $instituiton->toArray(),
+                'data'    => $instituition->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -110,16 +110,16 @@ class InstituitionsController extends Controller
      */
     public function show($id)
     {
-        $instituiton = $this->repository->find($id);
+        $instituition = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $instituiton,
+                'data' => $instituition,
             ]);
         }
 
-        return view('instituitons.show', compact('instituiton'));
+        return view('instituitions.show', compact('instituition'));
     }
 
     /**
@@ -133,7 +133,7 @@ class InstituitionsController extends Controller
     {
         $instituiton = $this->repository->find($id);
 
-        return view('instituitons.edit', compact('instituiton'));
+        return view('instituitions.edit', compact('instituition'));
     }
 
     /**
@@ -146,17 +146,17 @@ class InstituitionsController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(InstituitonUpdateRequest $request, $id)
+    public function update(InstituitionUpdateRequest $request, $id)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $instituiton = $this->repository->update($request->all(), $id);
+            $instituition = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'Instituiton updated.',
-                'data'    => $instituiton->toArray(),
+                'message' => 'Instituition updated.',
+                'data'    => $instituition->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -194,11 +194,11 @@ class InstituitionsController extends Controller
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'Instituiton deleted.',
+                'message' => 'Instituition deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'Instituiton deleted.');
+        return redirect()->back()->with('message', 'Instituition deleted.');
     }
 }

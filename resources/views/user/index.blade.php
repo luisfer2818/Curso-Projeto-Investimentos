@@ -22,7 +22,6 @@
 
     {!! Form::close() !!}
 
-    <hr>
 <table class="default-table">
     <thead>
         <tr>
